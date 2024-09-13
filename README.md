@@ -12,7 +12,8 @@ This is an early prototype of using prompting strategies to improve the LLM's re
 Prompt: How many Rs are in strawberry?
 
 Result:
-[Strawberry example](examples/strawberry.png)
+
+![Strawberry example](examples/strawberry.png)
 
 
 ### Prompting Strategy
