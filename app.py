@@ -4,11 +4,10 @@ import os
 import json
 import time
 
-# Set up Groq client
 client = groq.Groq()
 
 def make_api_call(messages, max_tokens, is_final_answer=False):
-    for attempt in range(3):  # Try up to 3 times
+    for attempt in range(3):
         try:
             response = client.chat.completions.create(
                 model="llama-3.1-70b-versatile",
@@ -19,7 +18,7 @@ def make_api_call(messages, max_tokens, is_final_answer=False):
             )
             return json.loads(response.choices[0].message.content)
         except Exception as e:
-            if attempt == 2:  # If this was the last attempt
+            if attempt == 2:
                 if is_final_answer:
                     return {"title": "Error", "content": f"Failed to generate final answer after 3 attempts. Error: {str(e)}"}
                 else:
@@ -79,14 +78,14 @@ Example of a valid JSON response:
     yield steps, total_thinking_time
 
 def main():
-    st.set_page_config(page_title="Groq Dynamic Reasoning Chain", page_icon="🧠", layout="wide")
+    st.set_page_config(page_title="g1 prototype", page_icon="🧠", layout="wide")
     
     st.title("Early Prototype of g1: Using Llama-3.1 70b on Groq to create o1-like reasoning chains")
     
     st.markdown("""
     This is an early prototype of using prompting to create o1-like reasoning chains to improve output accuracy. It is not perfect, it seems to be accurate on about 60-80% of runs on logic problems leading LLMs typically get right 0-20% of the time. It is powered by Groq so that the reasoning step is fast!
                 
-    Created by @benjaminklieger, open sourced here: 
+    Open source [repository here](https://github.com/bklieger-groq)
     """)
     
     # Text input for user query
@@ -105,16 +104,14 @@ def main():
                 for i, (title, content, thinking_time) in enumerate(steps):
                     if title.startswith("Final Answer"):
                         st.markdown(f"### {title}")
-                        st.markdown(content)
+                        st.markdown(content.replace('\n', '<br>'), unsafe_allow_html=True)
                     else:
                         with st.expander(title, expanded=True):
-                            st.markdown(content)
+                            st.markdown(content.replace('\n', '<br>'), unsafe_allow_html=True)
             
-            # Only show total time when it's available (i.e., at the end)
+            # Only show total time when it's available at the end
             if total_thinking_time is not None:
                 time_container.markdown(f"**Total thinking time: {total_thinking_time:.2f} seconds**")
-            
-            time.sleep(0.1)  # Add a small delay to make the step-by-step effect visible
 
 if __name__ == "__main__":
     main()
