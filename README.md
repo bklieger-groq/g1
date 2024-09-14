@@ -7,7 +7,7 @@ g1 is experimental and being open sourced to help inspire the open source commun
 ### Examples
 
 > [!IMPORTANT]
-> g1 is not perfect, but it can perform significantly better than LLMs out-of-the-box. From initial testing, g1 accurately solves simple logic problems 60-80% of the time that usually stump LLMs. See examples below.
+> g1 is not perfect, but it can perform significantly better than LLMs out-of-the-box. From initial testing, g1 accurately solves simple logic problems 60-80% of the time that usually stump LLMs. However, accuracy has yet to be formally evaluated. See examples below.
 
 
 ##### How many Rs are in strawberry?

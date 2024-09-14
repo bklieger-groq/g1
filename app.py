@@ -80,10 +80,10 @@ Example of a valid JSON response:
 def main():
     st.set_page_config(page_title="g1 prototype", page_icon="🧠", layout="wide")
     
-    st.title("Early Prototype of g1: Using Llama-3.1 70b on Groq to create o1-like reasoning chains")
+    st.title("g1: Using Llama-3.1 70b on Groq to create o1-like reasoning chains")
     
     st.markdown("""
-    This is an early prototype of using prompting to create o1-like reasoning chains to improve output accuracy. It is not perfect, it seems to be accurate on about 60-80% of runs on logic problems leading LLMs typically get right 0-20% of the time. It is powered by Groq so that the reasoning step is fast!
+    This is an early prototype of using prompting to create o1-like reasoning chains to improve output accuracy. It is not perfect and accuracy has yet to be formally evaluated. It is powered by Groq so that the reasoning step is fast!
                 
     Open source [repository here](https://github.com/bklieger-groq)
     """)
