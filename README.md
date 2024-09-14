@@ -1,7 +1,8 @@
-# g1: Early Prototype of Using Llama-3.1 70b on Groq to create o1-like reasoning chains
+# g1: Using Llama-3.1 70b on Groq to create o1-like reasoning chains
 
 This is an early prototype of using prompting strategies to improve the LLM's reasoning capabilities through o1-like reasoning chains. This allows the LLM to "think" and solve logical problems that usually otherwise stump leading models. Unlike o1, all the reasoning tokens are shown, and the app uses an open source model.
 
+g1 is experimental and being open sourced to help inspire the open source community to develop new strategies to produce o1-like reasoning.
 
 ### Examples
 
@@ -67,21 +68,21 @@ json
 #### Breakdown
 
 First, a persona is added:
-```
-You are an expert AI assistant that explains your reasoning step by step.
-```
+
+> You are an expert AI assistant that explains your reasoning step by step.
+
 
 
 Then, instructions to describe the expected step-by-step reasoning process while titling each reasoning step. This includes the ability for the LLM to decide if another reasoning step is needed or if the final answer can be provided.
-```
-For each step, provide a title that describes what you're doing in that step, along with the content. Decide if you need another step or if you're ready to give the final answer. 
-```
+
+> For each step, provide a title that describes what you're doing in that step, along with the content. Decide if you need another step or if you're ready to give the final answer. 
+
 
 
 JSON formatting is introduced with an example provided later.
-```
-Respond in JSON format with 'title', 'content', and 'next_action' (either 'continue' or 'final_answer') keys. 
-```
+
+> Respond in JSON format with 'title', 'content', and 'next_action' (either 'continue' or 'final_answer') keys. 
+
 
 
 In all-caps to improve prompt compliance by emphesizing the importance of the instruction, a set of tips and best practices are included.
@@ -93,9 +94,9 @@ In all-caps to improve prompt compliance by emphesizing the importance of the in
 5. Use at least 3 methods to derive the answer. -> This helps the LLM come to the right answer by trying multiple methods to derive it.
 6. Use best practices. -> This is as simple as the "Do better" prompts which improve LLM code output. By telling the LLM to use best practices, or do better, it generally performs better!
 
-```
-USE AS MANY REASONING STEPS AS POSSIBLE. AT LEAST 3. BE AWARE OF YOUR LIMITATIONS AS AN LLM AND WHAT YOU CAN AND CANNOT DO. IN YOUR REASONING, INCLUDE EXPLORATION OF ALTERNATIVE ANSWERS. CONSIDER YOU MAY BE WRONG, AND IF YOU ARE WRONG IN YOUR REASONING, WHERE IT WOULD BE. FULLY TEST ALL OTHER POSSIBILITIES. YOU CAN BE WRONG. WHEN YOU SAY YOU ARE RE-EXAMINING, ACTUALLY RE-EXAMINE, AND USE ANOTHER APPROACH TO DO SO. DO NOT JUST SAY YOU ARE RE-EXAMINING. USE AT LEAST 3 METHODS TO DERIVE THE ANSWER. USE BEST PRACTICES.
-```
+
+> USE AS MANY REASONING STEPS AS POSSIBLE. AT LEAST 3. BE AWARE OF YOUR LIMITATIONS AS AN LLM AND WHAT YOU CAN AND CANNOT DO. IN YOUR REASONING, INCLUDE EXPLORATION OF ALTERNATIVE ANSWERS. CONSIDER YOU MAY BE WRONG, AND IF YOU ARE WRONG IN YOUR REASONING, WHERE IT WOULD BE. FULLY TEST ALL OTHER POSSIBILITIES. YOU CAN BE WRONG. WHEN YOU SAY YOU ARE RE-EXAMINING, ACTUALLY RE-EXAMINE, AND USE ANOTHER APPROACH TO DO SO. DO NOT JUST SAY YOU ARE RE-EXAMINING. USE AT LEAST 3 METHODS TO DERIVE THE ANSWER. USE BEST PRACTICES.
+
 
 
 ### Credits
