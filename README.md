@@ -4,7 +4,10 @@
 
 This is an early prototype of using prompting strategies to improve the LLM's reasoning capabilities through o1-like reasoning chains. This allows the LLM to "think" and solve logical problems that usually otherwise stump leading models. Unlike o1, all the reasoning tokens are shown, and the app uses an open source model.
 
-g1 is experimental and being open sourced to help inspire the open source community to develop new strategies to produce o1-like reasoning. This is an experiment to show the power of prompting reasoning in visualized steps, not a comparison to or full replication of o1, which uses different techniques. Let's build!
+g1 is experimental and being open sourced to help inspire the open source community to develop new strategies to produce o1-like reasoning. This experiment helps show the power of prompting reasoning in visualized steps, not a comparison to or full replication of o1, which uses different techniques. OpenAI's o1 is instead trained with large-scale reinforcement learning to reason using Chain of Thought, achieving state-of-the-art performance on complex PhD-level problems. 
+
+g1 demonstrates the potential of prompting alone to overcome straightforward LLM logic issues like the Strawberry problem, allowing existing open source models to benefit from dynamic reasoning chains and an improved interface for exploring them.
+
 
 ### Examples
 
@@ -30,6 +33,8 @@ Result:
 
 ### Quickstart
 
+To use the Streamlit UI, follow these instructions:
+
 ~~~
 python3 -m venv venv
 ~~~
@@ -48,6 +53,22 @@ export GROQ_API_KEY=gsk...
 
 ~~~
 streamlit run app.py
+~~~
+
+---
+
+Alternatively, follow these additional instructions to use the Gradio UI:
+
+~~~
+cd gradio
+~~~
+
+~~~
+pip3 install -r requirements.txt
+~~~
+
+~~~
+python3 app.py
 ~~~
 
 
@@ -99,6 +120,11 @@ In all-caps to improve prompt compliance by emphesizing the importance of the in
 
 > USE AS MANY REASONING STEPS AS POSSIBLE. AT LEAST 3. BE AWARE OF YOUR LIMITATIONS AS AN LLM AND WHAT YOU CAN AND CANNOT DO. IN YOUR REASONING, INCLUDE EXPLORATION OF ALTERNATIVE ANSWERS. CONSIDER YOU MAY BE WRONG, AND IF YOU ARE WRONG IN YOUR REASONING, WHERE IT WOULD BE. FULLY TEST ALL OTHER POSSIBILITIES. YOU CAN BE WRONG. WHEN YOU SAY YOU ARE RE-EXAMINING, ACTUALLY RE-EXAMINE, AND USE ANOTHER APPROACH TO DO SO. DO NOT JUST SAY YOU ARE RE-EXAMINING. USE AT LEAST 3 METHODS TO DERIVE THE ANSWER. USE BEST PRACTICES.
 
+
+
+Finally, after the problem is added as a user message, an assistant message is loaded to provide a standardized starting point for the LLM's generation.
+
+> Assistant: Thank you! I will now think step by step following my instructions, starting at the beginning after decomposing the problem
 
 
 ### Credits
