@@ -4,7 +4,7 @@
 
 This is an early prototype of using prompting strategies to improve the LLM's reasoning capabilities through o1-like reasoning chains. This allows the LLM to "think" and solve logical problems that usually otherwise stump leading models. Unlike o1, all the reasoning tokens are shown, and the app uses an open source model.
 
-g1 is experimental and being open sourced to help inspire the open source community to develop new strategies to produce o1-like reasoning. This is an experiment to show the power of prompting reasoning in visualized steps, not a comparison to or full replication of o1, which uses different techniques. Let's build!
+g1 is experimental and being open sourced to help inspire the open source community to develop new strategies to produce o1-like reasoning. This is an experiment to show the power of prompting reasoning in visualized steps, not a comparison to or full replication of o1, which uses different techniques. OpenAI's o1 is instead trained with large-scale reinforcement learning to reason using Chain of Thought, achieving state-of-the-art performance on complex PhD-level problems. g1 demonstrates the potential of prompting alone to overcome straightforward LLM logic issues like the Strawberry problem, allowing existing open source models to benefit from dynamic reasoning chains and an improved interface for exploring them.
 
 ### Examples
 
