@@ -1,17 +1,23 @@
-# g1: Using Llama-3.1 70b on Groq to create o1-like reasoning chains
+# multi1: Using multiple AI providers to create o1-like reasoning chains
+
+## Features
+
+- [x] Using Llama-3.1 70b on Groq to create o1-like reasoning chains
+- [x] Using Ollama to create o1-like reasoning chains
+- [x] Using Perplexity to create o1-like reasoning chains
 
 [Video Demo](https://github.com/user-attachments/assets/db2a221f-f8eb-48c3-b5a7-8399c6300243)
 
 This is an early prototype of using prompting strategies to improve the LLM's reasoning capabilities through o1-like reasoning chains. This allows the LLM to "think" and solve logical problems that usually otherwise stump leading models. Unlike o1, all the reasoning tokens are shown, and the app uses an open source model.
 
-g1 is experimental and being open sourced to help inspire the open source community to develop new strategies to produce o1-like reasoning. This experiment helps show the power of prompting reasoning in visualized steps, not a comparison to or full replication of o1, which uses different techniques. OpenAI's o1 is instead trained with large-scale reinforcement learning to reason using Chain of Thought, achieving state-of-the-art performance on complex PhD-level problems. 
+multi1 is experimental and being open sourced to help inspire the open source community to develop new strategies to produce o1-like reasoning. This experiment helps show the power of prompting reasoning in visualized steps, not a comparison to or full replication of o1, which uses different techniques. OpenAI's o1 is instead trained with large-scale reinforcement learning to reason using Chain of Thought, achieving state-of-the-art performance on complex PhD-level problems. 
 
-g1 demonstrates the potential of prompting alone to overcome straightforward LLM logic issues like the Strawberry problem, allowing existing open source models to benefit from dynamic reasoning chains and an improved interface for exploring them.
+multi1 demonstrates the potential of prompting alone to overcome straightforward LLM logic issues like the Strawberry problem, allowing existing open source models to benefit from dynamic reasoning chains and an improved interface for exploring them.
 
 
 ### How it works
 
-g1 powered by Llama3.1-70b creates reasoning chains, in principle a dynamic Chain of Thought, that allows the LLM to "think" and solve some logical problems that usually otherwise stump leading models.
+multi1 powered by Llama3.1-70b creates reasoning chains, in principle a dynamic Chain of Thought, that allows the LLM to "think" and solve some logical problems that usually otherwise stump leading models.
 
 At each step, the LLM can choose to continue to another reasoning step, or provide a final answer. Each step is titled and visible to the user. The system prompt also includes tips for the LLM. There is a full explanation under Prompt Breakdown, but a few examples are asking the model to “include exploration of alternative answers” and “use at least 3 methods to derive the answer”.
 
@@ -21,7 +27,7 @@ The reasoning ability of the LLM is therefore improved through combining Chain-o
 ### Examples
 
 > [!IMPORTANT]
-> g1 is not perfect, but it can perform significantly better than LLMs out-of-the-box. From initial testing, g1 accurately solves simple logic problems 60-80% of the time that usually stump LLMs. However, accuracy has yet to be formally evaluated. See examples below.
+> multi1 is not perfect, but it can perform significantly better than LLMs out-of-the-box. From initial testing, multi1 accurately solves simple logic problems 60-80% of the time that usually stump LLMs. However, accuracy has yet to be formally evaluated. See examples below.
 
 
 ##### How many Rs are in strawberry?
@@ -42,31 +48,59 @@ Result:
 
 ### Quickstart
 
-To use the Streamlit UI, follow these instructions:
+To use the launcher, follow these instructions:
 
-~~~
-python3 -m venv venv
-~~~
+1. Set up the environment:
 
-~~~
-source venv/bin/activate
-~~~
+   ```
+   python3 -m venv venv
+   source venv/bin/activate
+   pip3 install -r requirements.txt
+   ```
 
-~~~
-pip3 install -r requirements.txt
-~~~
+2. Copy the example environment file:
 
-~~~
-export GROQ_API_KEY=gsk...
-~~~
+   ```
+   cp example.env .env
+   ```
 
-~~~
-streamlit run app.py
-~~~
+3. Edit the .env file with your API keys / models preferences.
+
+4. Run the launcher:
+
+   ```
+   python launcher.py
+   ```
+
+5. Use the arrow keys to navigate the menu, Enter to select an option, and 'q' to quit.
+
+The launcher allows you to:
+
+- Run the Ollama-based chat application (ol1.py)
+- Run the Perplexity-based chat application (p1.py)
+- Run the Groq-based chat application (g1.py)
+- Edit the .env file
+- Exit the launcher
+
+When running a chat application, you can press 'q' at any time to stop the application and return to the launcher.
 
 ---
 
-Alternatively, follow these additional instructions to use the Gradio UI:
+Alternatively, if you prefer to run the applications directly without the launcher:
+
+```
+streamlit run app.py
+```
+
+Where 'app.py' is the app you want to run and can be:
+
+- g1.py (Groq)
+- ol1.py (Ollama)
+- p1.py (Perplexity)
+
+---
+
+If you prefer to use the Gradio UI, follow these additional instructions (only works with Groq at the moment):
 
 ~~~
 cd gradio
@@ -138,4 +172,5 @@ Finally, after the problem is added as a user message, an assistant message is l
 
 ### Credits
 
-This app was developed by [Benjamin Klieger](https://x.com/benjaminklieger).
+This app was originally developed by [Benjamin Klieger](https://x.com/benjaminklieger).
+Part of the code (Ollama and Perplexity support, launcher.py) was developed by [tcsenpai](https://github.com/tcsenpai).

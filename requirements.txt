@@ -1,2 +1,5 @@
 streamlit
 groq
+dotenv
+requests
+blessed
