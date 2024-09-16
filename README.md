@@ -136,6 +136,10 @@ Finally, after the problem is added as a user message, an assistant message is l
 > Assistant: Thank you! I will now think step by step following my instructions, starting at the beginning after decomposing the problem
 
 
+### Top Forks
+* Mult1: Using multiple AI providers to create o1-like reasoning chains ([GitHub Repository](https://github.com/tcsenpai/multi1))
+
+
 ### Credits
 
 This app was developed by [Benjamin Klieger](https://x.com/benjaminklieger).
