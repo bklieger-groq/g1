@@ -122,6 +122,11 @@ In all-caps to improve prompt compliance by emphesizing the importance of the in
 
 
 
+Finally, after the problem is added as a user message, an assistant message is loaded to provide a standardized starting point for the LLM's generation.
+
+> Assistant: Thank you! I will now think step by step following my instructions, starting at the beginning after decomposing the problem
+
+
 ### Credits
 
 This app was developed by [Benjamin Klieger](https://x.com/benjaminklieger).
