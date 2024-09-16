@@ -5,12 +5,19 @@ import os
 import json
 import time
 
+use_ollama = False
+client = None
+try:
+    client = groq.Groq()
+except Exception as e:
+    use_ollama = True
+
+
 # Function to make the API call using Ollama
 def make_api_call(messages, max_tokens, is_final_answer=False):
     for attempt in range(3):
         try:
-            try:
-                client = groq.Groq()
+            if not use_ollama:
                 response = client.chat.completions.create(
                     model="llama-3.1-70b-versatile",
                     messages=messages,
@@ -19,7 +26,7 @@ def make_api_call(messages, max_tokens, is_final_answer=False):
                     response_format={"type": "json_object"}
                 )
                 return json.loads(response.choices[0].message.content)
-            except Exception as e:
+            else:
                 response = ollama.chat(
                     model="llama3.1:70b",
                     messages=messages,
