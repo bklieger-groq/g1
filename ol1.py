@@ -15,7 +15,6 @@ OLLAMA_MODEL = os.getenv('OLLAMA_MODEL', 'llama3.1:70b')
 def make_api_call(messages, max_tokens, is_final_answer=False):
     for attempt in range(3):
         try:
-            print( f'Try api call with {messages=}, {max_tokens=}, {is_final_answer=}', flush=True )
             response = requests.post(
                 f"{OLLAMA_URL}/api/chat",
                 json={
@@ -29,7 +28,6 @@ def make_api_call(messages, max_tokens, is_final_answer=False):
                     }
                 }
             )
-            print( f'Got response:\n{response.json()}\n', flush=True)
             response.raise_for_status()
             return json.loads(response.json()["message"]["content"])
         except Exception as e:
@@ -71,8 +69,6 @@ You MUST response using the expected json schema, and your response must be vali
         steps.append((f"Step {step_count}: {step_data['title']}", step_data['content'], thinking_time))
 
         messages.append({"role": "assistant", "content": json.dumps(step_data)})
-
-        print( f"Generate response update: {messages=}", flush=True )
 
         if step_data['next_action'] == 'final_answer':
             break
