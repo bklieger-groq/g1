@@ -1,29 +1,42 @@
-import streamlit as st
 import groq
+import streamlit as st
+import ollama
 import os
 import json
 import time
 
-client = groq.Groq()
-
+# Function to make the API call using Ollama
 def make_api_call(messages, max_tokens, is_final_answer=False):
     for attempt in range(3):
         try:
-            response = client.chat.completions.create(
-                model="llama-3.1-70b-versatile",
-                messages=messages,
-                max_tokens=max_tokens,
-                temperature=0.2,
-                response_format={"type": "json_object"}
-            )
-            return json.loads(response.choices[0].message.content)
+            try:
+                client = groq.Groq()
+                response = client.chat.completions.create(
+                    model="llama-3.1-70b-versatile",
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=0.2,
+                    response_format={"type": "json_object"}
+                )
+                return json.loads(response.choices[0].message.content)
+            except Exception as e:
+                response = ollama.chat(
+                    model="llama3.1:70b",
+                    messages=messages,
+                    options={"temperature":0.2, "max_length":max_tokens},
+                    format='json',
+                )
+                return json.loads(response['message']['content'])
         except Exception as e:
+            print('Exception occurred', e, 'Retrying...')
             if attempt == 2:
                 if is_final_answer:
                     return {"title": "Error", "content": f"Failed to generate final answer after 3 attempts. Error: {str(e)}"}
                 else:
                     return {"title": "Error", "content": f"Failed to generate step after 3 attempts. Error: {str(e)}", "next_action": "final_answer"}
             time.sleep(1)  # Wait for 1 second before retrying
+
+
 
 def generate_response(prompt):
     messages = [
