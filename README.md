@@ -1,12 +1,23 @@
 # multi1: Using multiple AI providers to create o1-like reasoning chains
 
+***IMPORTANT: multi1 is a fork of [g1](https://github.com/bklieger-groq/g1/), made by [Benjamin Klieger](https://x.com/benjaminklieger). It was made as a way to experiment with multiple AI providers included local LLMs. All credits go to the original author.***
+
 ## Features
 
 - [x] Using Llama-3.1 70b on Groq to create o1-like reasoning chains
 - [x] Using Ollama to create o1-like reasoning chains
 - [x] Using Perplexity to create o1-like reasoning chains
 
+## Work in progress
+
+- [ ] Add more providers
+- [ ] Use something like LiteLLM to unify models code and avoid repeating code for each provider
+
+## Original G1 Example video
+
 [Video Demo](https://github.com/user-attachments/assets/db2a221f-f8eb-48c3-b5a7-8399c6300243)
+
+## Description
 
 This is an early prototype of using prompting strategies to improve the LLM's reasoning capabilities through o1-like reasoning chains. This allows the LLM to "think" and solve logical problems that usually otherwise stump leading models. Unlike o1, all the reasoning tokens are shown, and the app uses an open source model.
 
@@ -17,7 +28,7 @@ multi1 demonstrates the potential of prompting alone to overcome straightforward
 
 ### How it works
 
-multi1 powered by Llama3.1-70b creates reasoning chains, in principle a dynamic Chain of Thought, that allows the LLM to "think" and solve some logical problems that usually otherwise stump leading models.
+multi1 powered by one of the supported models creates reasoning chains, in principle a dynamic Chain of Thought, that allows the LLM to "think" and solve some logical problems that usually otherwise stump leading models.
 
 At each step, the LLM can choose to continue to another reasoning step, or provide a final answer. Each step is titled and visible to the user. The system prompt also includes tips for the LLM. There is a full explanation under Prompt Breakdown, but a few examples are asking the model to “include exploration of alternative answers” and “use at least 3 methods to derive the answer”.
 
@@ -172,5 +183,5 @@ Finally, after the problem is added as a user message, an assistant message is l
 
 ### Credits
 
-This app was originally developed by [Benjamin Klieger](https://x.com/benjaminklieger).
-Part of the code (Ollama and Perplexity support, launcher.py) was developed by [tcsenpai](https://github.com/tcsenpai).
+g1 was originally developed by [Benjamin Klieger](https://x.com/benjaminklieger).
+This multi1 fork was developed by [tcsenpai](https://github.com/tcsenpai).
