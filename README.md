@@ -7,6 +7,7 @@
 - [x] Using Llama-3.1 70b on Groq to create o1-like reasoning chains
 - [x] Using Ollama to create o1-like reasoning chains
 - [x] Using Perplexity to create o1-like reasoning chains
+- [x] Using an unified interface to try out different providers
 
 ## Work in progress
 
@@ -82,54 +83,13 @@ To use the launcher, follow these instructions:
 
 3. Edit the .env file with your API keys / models preferences.
 
-4. Run the launcher:
+4. Run the main interface
 
    ```
-   python launcher.py
+   streamlit run main.py
    ```
 
-5. Use the arrow keys to navigate the menu, Enter to select an option, and 'q' to quit.
-
-The launcher allows you to:
-
-- Run the Ollama-based chat application (ol1.py)
-- Run the Perplexity-based chat application (p1.py)
-- Run the Groq-based chat application (g1.py)
-- Edit the .env file
-- Exit the launcher
-
-When running a chat application, you can press 'q' at any time to stop the application and return to the launcher.
-
 ---
-
-Alternatively, if you prefer to run the applications directly without the launcher:
-
-```
-streamlit run app.py
-```
-
-Where 'app.py' is the app you want to run and can be:
-
-- g1.py (Groq)
-- ol1.py (Ollama)
-- p1.py (Perplexity)
-
----
-
-If you prefer to use the Gradio UI, follow these additional instructions (only works with Groq at the moment):
-
-~~~
-cd gradio
-~~~
-
-~~~
-pip3 install -r requirements.txt
-~~~
-
-~~~
-python3 app.py
-~~~
-
 
 ### Prompting Strategy
 
