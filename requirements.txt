@@ -1,5 +1,5 @@
 streamlit
 groq
-dotenv
+python-dotenv
 requests
 blessed
