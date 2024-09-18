@@ -29,7 +29,7 @@ def make_api_call(messages, max_tokens, is_final_answer=False):
             time.sleep(1)  # Wait for 1 second before retrying
 
 
-def generate_response(prompt):
+def generate_response(prompt, batch_size=3):
     messages = [
         {"role": "system", "content": """You are an expert AI assistant that explains your reasoning step by step. For each step, provide a title that describes what you're doing in that step, along with the content. Decide if you need another step or if you're ready to give the final answer. Respond in JSON format with 'title', 'content', and 'next_action' (either 'continue' or 'final_answer') keys. USE AS MANY REASONING STEPS AS POSSIBLE. AT LEAST 3. BE AWARE OF YOUR LIMITATIONS AS AN LLM AND WHAT YOU CAN AND CANNOT DO. IN YOUR REASONING, INCLUDE EXPLORATION OF ALTERNATIVE ANSWERS. CONSIDER YOU MAY BE WRONG, AND IF YOU ARE WRONG IN YOUR REASONING, WHERE IT WOULD BE. FULLY TEST ALL OTHER POSSIBILITIES. YOU CAN BE WRONG. WHEN YOU SAY YOU ARE RE-EXAMINING, ACTUALLY RE-EXAMINE, AND USE ANOTHER APPROACH TO DO SO. DO NOT JUST SAY YOU ARE RE-EXAMINING. USE AT LEAST 3 METHODS TO DERIVE THE ANSWER. USE BEST PRACTICES.
 
@@ -48,6 +48,7 @@ Example of a valid JSON response:
 
     steps = []
     step_count = 1
+    batch_counter = 0  # Track how many steps have been processed since the last UI update
     total_thinking_time = 0
 
     while True:
@@ -65,10 +66,14 @@ Example of a valid JSON response:
             'next_action'] == 'final_answer' or step_count > 25:  # Maximum of 25 steps to prevent infinite thinking time. Can be adjusted.
             break
 
+        # Increment batch counter and step count
+        batch_counter += 1
         step_count += 1
 
-        # Yield after each step for Streamlit to update
-        yield steps, None  # We're not yielding the total time until the end
+        # Yield after every batch_size steps to update UI
+        if batch_counter >= batch_size:
+            yield steps, None  # Yield the steps processed so far for UI update
+            batch_counter = 0  # Reset the batch counter
 
     # Generate final answer
     messages.append({"role": "user", "content": "Please provide the final answer based on your reasoning above."})
@@ -81,6 +86,7 @@ Example of a valid JSON response:
 
     steps.append(("Final Answer", final_data['content'], thinking_time))
 
+    # Final yield to update the UI with the final answer and total time
     yield steps, total_thinking_time
 
 
@@ -105,8 +111,8 @@ def main():
         response_container = st.empty()
         time_container = st.empty()
 
-        # Generate and display the response
-        for steps, total_thinking_time in generate_response(user_query):
+        # Generate and display the response, batch update every 1 steps (or customize the batch size)
+        for steps, total_thinking_time in generate_response(user_query, batch_size=1):  # Update UI every 3 steps
             with response_container.container():
                 for i, (title, content, thinking_time) in enumerate(steps):
                     if title.startswith("Final Answer"):
