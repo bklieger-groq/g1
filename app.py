@@ -9,14 +9,24 @@ client = groq.Groq()
 def make_api_call(messages, max_tokens, is_final_answer=False):
     for attempt in range(3):
         try:
-            response = client.chat.completions.create(
-                model="llama-3.1-70b-versatile",
-                messages=messages,
-                max_tokens=max_tokens,
-                temperature=0.2,
-                response_format={"type": "json_object"}
-            )
-            return json.loads(response.choices[0].message.content)
+            if is_final_answer:
+                response = client.chat.completions.create(
+                    model="llama-3.1-70b-versatile",
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=0.2,
+                    # response_format={"type": "json_object"}
+            ) 
+                return response.choices[0].message.content
+            else:
+                response = client.chat.completions.create(
+                    model="llama-3.1-70b-versatile",
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=0.2,
+                    response_format={"type": "json_object"}
+                )
+                return json.loads(response.choices[0].message.content)
         except Exception as e:
             if attempt == 2:
                 if is_final_answer:
@@ -28,6 +38,9 @@ def make_api_call(messages, max_tokens, is_final_answer=False):
 def generate_response(prompt):
     messages = [
         {"role": "system", "content": """You are an expert AI assistant that explains your reasoning step by step. For each step, provide a title that describes what you're doing in that step, along with the content. Decide if you need another step or if you're ready to give the final answer. Respond in JSON format with 'title', 'content', and 'next_action' (either 'continue' or 'final_answer') keys. USE AS MANY REASONING STEPS AS POSSIBLE. AT LEAST 3. BE AWARE OF YOUR LIMITATIONS AS AN LLM AND WHAT YOU CAN AND CANNOT DO. IN YOUR REASONING, INCLUDE EXPLORATION OF ALTERNATIVE ANSWERS. CONSIDER YOU MAY BE WRONG, AND IF YOU ARE WRONG IN YOUR REASONING, WHERE IT WOULD BE. FULLY TEST ALL OTHER POSSIBILITIES. YOU CAN BE WRONG. WHEN YOU SAY YOU ARE RE-EXAMINING, ACTUALLY RE-EXAMINE, AND USE ANOTHER APPROACH TO DO SO. DO NOT JUST SAY YOU ARE RE-EXAMINING. USE AT LEAST 3 METHODS TO DERIVE THE ANSWER. USE BEST PRACTICES.
+
+- For **reasoning steps**, respond in JSON format with 'title', 'content', and 'next_action' (either 'continue' or 'final_answer') keys. 
+- For the **final answer**, provide it in plain text without any JSON formatting.
 
 Example of a valid JSON response:
 ```json
@@ -73,7 +86,7 @@ Example of a valid JSON response:
     thinking_time = end_time - start_time
     total_thinking_time += thinking_time
     
-    steps.append(("Final Answer", final_data['content'], thinking_time))
+    steps.append(("Final Answer", final_data, thinking_time))
 
     yield steps, total_thinking_time
 
@@ -102,6 +115,9 @@ def main():
         for steps, total_thinking_time in generate_response(user_query):
             with response_container.container():
                 for i, (title, content, thinking_time) in enumerate(steps):
+                    # Ensure content is a string
+                    if not isinstance(content, str):
+                        content = json.dumps(content)
                     if title.startswith("Final Answer"):
                         st.markdown(f"### {title}")
                         st.markdown(content.replace('\n', '<br>'), unsafe_allow_html=True)
