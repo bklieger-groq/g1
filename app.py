@@ -40,7 +40,8 @@ def generate_response(prompt):
         {"role": "system", "content": """You are an expert AI assistant that explains your reasoning step by step. For each step, provide a title that describes what you're doing in that step, along with the content. Decide if you need another step or if you're ready to give the final answer. Respond in JSON format with 'title', 'content', and 'next_action' (either 'continue' or 'final_answer') keys. USE AS MANY REASONING STEPS AS POSSIBLE. AT LEAST 3. BE AWARE OF YOUR LIMITATIONS AS AN LLM AND WHAT YOU CAN AND CANNOT DO. IN YOUR REASONING, INCLUDE EXPLORATION OF ALTERNATIVE ANSWERS. CONSIDER YOU MAY BE WRONG, AND IF YOU ARE WRONG IN YOUR REASONING, WHERE IT WOULD BE. FULLY TEST ALL OTHER POSSIBILITIES. YOU CAN BE WRONG. WHEN YOU SAY YOU ARE RE-EXAMINING, ACTUALLY RE-EXAMINE, AND USE ANOTHER APPROACH TO DO SO. DO NOT JUST SAY YOU ARE RE-EXAMINING. USE AT LEAST 3 METHODS TO DERIVE THE ANSWER. USE BEST PRACTICES.
 
 - For **reasoning steps**, respond in JSON format with 'title', 'content', and 'next_action' (either 'continue' or 'final_answer') keys. 
-- For the **final answer**, provide it in plain text without any JSON formatting.
+- For the **final answer**, provide it in plain text without any JSON formatting. If the final answer includes code, especially HTML or JavaScript, enclose it within triple backticks and specify the language (e.g., ```html) to prevent rendering issues.
+
 
 Example of a valid JSON response:
 ```json
@@ -81,7 +82,7 @@ Example of a valid JSON response:
     messages.append({"role": "user", "content": "Please provide the final answer based on your reasoning above."})
     
     start_time = time.time()
-    final_data = make_api_call(messages, 200, is_final_answer=True)
+    final_data = make_api_call(messages, 1200, is_final_answer=True)
     end_time = time.time()
     thinking_time = end_time - start_time
     total_thinking_time += thinking_time
@@ -120,7 +121,21 @@ def main():
                         content = json.dumps(content)
                     if title.startswith("Final Answer"):
                         st.markdown(f"### {title}")
-                        st.markdown(content.replace('\n', '<br>'), unsafe_allow_html=True)
+                        if '```' in content:
+                            parts = content.split('```')
+                            for index, part in enumerate(parts):
+                                if index % 2 == 0:
+                                    st.markdown(part)
+                                else:
+                                    if '\n' in part:
+                                        lang_line, code = part.split('\n', 1)
+                                        lang = lang_line.strip()
+                                    else:
+                                        lang = ''
+                                        code = part
+                                    st.code(part, language=lang)
+                        else:
+                            st.markdown(content.replace('\n', '<br>'), unsafe_allow_html=True)
                     else:
                         with st.expander(title, expanded=True):
                             st.markdown(content.replace('\n', '<br>'), unsafe_allow_html=True)
