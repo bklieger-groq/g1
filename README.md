@@ -117,7 +117,7 @@ JSON formatting is introduced with an example provided later.
 
 
 
-In all-caps to improve prompt compliance by emphesizing the importance of the instruction, a set of tips and best practices are included.
+In all-caps to improve prompt compliance by emphasizing the importance of the instruction, a set of tips and best practices are included.
 
 1. Use as many reasoning steps as possible. At least 3. -> This ensures the LLM actually takes the time to think first, and results usually in about 5-10 steps.
 2. Be aware of your limitations as an llm and what you can and cannot do. -> This helps the LLM remember to use techniques which produce better results, like breaking "strawberry" down into individual letters before counting.
