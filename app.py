@@ -54,7 +54,7 @@ Example of a valid JSON response:
         
         steps.append((f"Step {step_count}: {step_data['title']}", step_data['content'], thinking_time))
         
-        messages.append({"role": "assistant", "content": json.dumps(step_data)})
+        messages.append({"role": "assistant", "content": json.dumps(step_data, ensure_ascii=False)})
         
         if step_data['next_action'] == 'final_answer' or step_count > 25: # Maximum of 25 steps to prevent infinite thinking time. Can be adjusted.
             break
