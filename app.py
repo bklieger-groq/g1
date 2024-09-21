@@ -15,7 +15,6 @@ def make_api_call(messages, max_tokens, is_final_answer=False):
                     messages=messages,
                     max_tokens=max_tokens,
                     temperature=0.2,
-                    # response_format={"type": "json_object"}
             ) 
                 return response.choices[0].message.content
             else:
@@ -75,10 +74,10 @@ Example of a valid JSON response:
         yield steps, None  # We're not yielding the total time until the end
 
     # Generate final answer
-    messages.append({"role": "user", "content": "Please provide the final answer based on your reasoning above."})
+    messages.append({"role": "user", "content": "Please provide the final answer based solely on your reasoning above. Do not use JSON formatting. Only provide the text response without any titles or preambles. Retain any formatting as instructed by the original prompt, such as exact formatting for free response or multiple choice."})
     
     start_time = time.time()
-    final_data = make_api_call(messages, 200, is_final_answer=True)
+    final_data = make_api_call(messages, 1200, is_final_answer=True)
     end_time = time.time()
     thinking_time = end_time - start_time
     total_thinking_time += thinking_time
