@@ -9,14 +9,24 @@ client = groq.Groq()
 def make_api_call(messages, max_tokens, is_final_answer=False):
     for attempt in range(3):
         try:
-            response = client.chat.completions.create(
-                model="llama-3.1-70b-versatile",
-                messages=messages,
-                max_tokens=max_tokens,
-                temperature=0.2,
-                response_format={"type": "json_object"}
-            )
-            return json.loads(response.choices[0].message.content)
+            if is_final_answer:
+                response = client.chat.completions.create(
+                    model="llama-3.1-70b-versatile",
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=0.2,
+                    # response_format={"type": "json_object"}
+            ) 
+                return response.choices[0].message.content
+            else:
+                response = client.chat.completions.create(
+                    model="llama-3.1-70b-versatile",
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=0.2,
+                    response_format={"type": "json_object"}
+                )
+                return json.loads(response.choices[0].message.content)
         except Exception as e:
             if attempt == 2:
                 if is_final_answer:
@@ -73,7 +83,7 @@ Example of a valid JSON response:
     thinking_time = end_time - start_time
     total_thinking_time += thinking_time
     
-    steps.append(("Final Answer", final_data['content'], thinking_time))
+    steps.append(("Final Answer", final_data, thinking_time))
 
     yield steps, total_thinking_time
 
@@ -102,9 +112,26 @@ def main():
         for steps, total_thinking_time in generate_response(user_query):
             with response_container.container():
                 for i, (title, content, thinking_time) in enumerate(steps):
+                    # Ensure content is a string
+                    if not isinstance(content, str):
+                        content = json.dumps(content)
                     if title.startswith("Final Answer"):
                         st.markdown(f"### {title}")
-                        st.markdown(content.replace('\n', '<br>'), unsafe_allow_html=True)
+                        if '```' in content:
+                            parts = content.split('```')
+                            for index, part in enumerate(parts):
+                                if index % 2 == 0:
+                                    st.markdown(part)
+                                else:
+                                    if '\n' in part:
+                                        lang_line, code = part.split('\n', 1)
+                                        lang = lang_line.strip()
+                                    else:
+                                        lang = ''
+                                        code = part
+                                    st.code(part, language=lang)
+                        else:
+                            st.markdown(content.replace('\n', '<br>'), unsafe_allow_html=True)
                     else:
                         with st.expander(title, expanded=True):
                             st.markdown(content.replace('\n', '<br>'), unsafe_allow_html=True)
