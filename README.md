@@ -64,23 +64,6 @@ export GROQ_API_KEY=gsk...
 streamlit run app.py
 ~~~
 
----
-
-Alternatively, follow these additional instructions to use the Gradio UI:
-
-~~~
-cd gradio
-~~~
-
-~~~
-pip3 install -r requirements.txt
-~~~
-
-~~~
-python3 app.py
-~~~
-
-
 ### Prompting Strategy
 
 The prompt is as follows:
