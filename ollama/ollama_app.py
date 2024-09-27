@@ -31,7 +31,7 @@ def make_api_call(messages, max_tokens, model, is_final_answer=False):
             time.sleep(1)  # Wait for 1 second before retrying
 
 
-def generate_response(prompt, model):
+def generate_response(prompt, model, max_tokens):
     messages = [
         {
             "role": "system",
@@ -59,7 +59,7 @@ Example of a valid JSON response:
 
     while True:
         start_time = time.time()
-        step_data = make_api_call(messages, 300, model)
+        step_data = make_api_call(messages, max_tokens, model)
         end_time = time.time()
         thinking_time = end_time - start_time
         total_thinking_time += thinking_time
@@ -105,13 +105,10 @@ Example of a valid JSON response:
 
 def get_models():
     models_dict = ollama.list().items()
-
-    # get the names for the models
     models = []
-    for key, value in models_dict:
+    for _, value in models_dict:
         for model in value:
             models.append(model["model"])
-
     return models
 
 
@@ -129,8 +126,10 @@ def main():
     )
 
     models = get_models()
-
     model = st.selectbox("Select an Ollama model:", models)
+    max_tokens = st.slider(
+        "Max tokens for each step:", min_value=256, max_value=8192, value=512
+    )
 
     # Text input for user query
     user_query = st.text_input(
@@ -146,7 +145,9 @@ def main():
         time_container = st.empty()
 
         # Generate and display the response
-        for steps, total_thinking_time in generate_response(user_query, model):
+        for steps, total_thinking_time in generate_response(
+            user_query, model, max_tokens
+        ):
             with response_container.container():
                 for i, (title, content, thinking_time) in enumerate(steps):
                     if title.startswith("Final Answer"):
