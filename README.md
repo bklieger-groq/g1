@@ -138,7 +138,7 @@ Finally, after the problem is added as a user message, an assistant message is l
 
 ### Top Forks
 * Mult1: Using multiple AI providers to create o1-like reasoning chains ([GitHub Repository](https://github.com/tcsenpai/multi1))
-
+* thinkR: o1 like chain of thoughts with local LLMs in R ([GitHub Repository](https://github.com/eonurk/thinkR))
 
 ### Credits
 

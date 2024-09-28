@@ -6,6 +6,7 @@ import json
 client = groq.Groq()
 
 def make_api_call(messages, max_tokens, is_final_answer=False, custom_client=None):
+    global client
     if custom_client != None:
         client = custom_client
     
