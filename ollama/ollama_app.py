@@ -10,7 +10,7 @@ def make_api_call(messages, max_tokens, is_final_answer=False):
             response = ollama.chat(
                 model="llama3.1:70b",
                 messages=messages,
-                options={"temperature":0.2, "max_length":max_tokens},
+                options={"temperature":0.2, "num_predict":max_tokens},
                 format='json',
             )
             return json.loads(response['message']['content'])
