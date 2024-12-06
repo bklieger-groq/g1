@@ -25,6 +25,7 @@ The reasoning ability of the LLM is therefore improved through combining Chain-o
 
 
 ##### How many Rs are in strawberry?
+
 Prompt: How many Rs are in strawberry?
 
 Result:
@@ -137,6 +138,8 @@ Finally, after the problem is added as a user message, an assistant message is l
 
 
 ### Top Forks
+
+* Huggingface Spaces Demo: [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/xylin/g1-demo)
 * Mult1: Using multiple AI providers to create o1-like reasoning chains ([GitHub Repository](https://github.com/tcsenpai/multi1))
 * thinkR: o1 like chain of thoughts with local LLMs in R ([GitHub Repository](https://github.com/eonurk/thinkR))
 
